@@ -17,6 +17,7 @@ const app = express()
 app.set('trust proxy', true)
 app.use(ipFilter(IPs, { mode: 'allow' }))
 app.use((err, req, res, next) => {
+  if (req.method === 'GET') return next()
   if (err instanceof IpDeniedError) return res.sendStatus(401)
   else return next()
 })
@@ -27,6 +28,11 @@ app.use((req, res, next) => {
   res.set('X-Docker-Hostname', process.env.HOSTNAME)
   res.removeHeader('X-Powered-By')
   next()
+})
+
+app.get('*', (req, res) => {
+  res.set('Content-type', 'text/plain')
+  res.send(':)')
 })
 
 app.post('*', (req, res) => {
