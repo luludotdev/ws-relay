@@ -1,26 +1,13 @@
 const { createServer } = require('http')
-const dotenv = require('dotenv')
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const WebSocket = require('ws')
-const { IpFilter: ipFilter, IpDeniedError } = require('express-ipfilter')
-
-// Whitelisted IPs
-dotenv.load()
-const { IP_ALLOW } = process.env
-const IPs = !IP_ALLOW ? ['::1'] : ['::1', ...IP_ALLOW.split('|')]
 
 // Express App
 const app = express()
 app.set('trust proxy', true)
-app.use(ipFilter(IPs, { mode: 'allow' }))
-app.use((err, req, res, next) => {
-  if (req.method === 'GET') return next()
-  if (err instanceof IpDeniedError) return res.sendStatus(401)
-  else return next()
-})
 app.use(morgan('combined'))
 app.use(cors())
 app.use(bodyParser.json())
