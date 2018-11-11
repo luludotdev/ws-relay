@@ -7,9 +7,15 @@ const WebSocket = require('ws')
 
 // Express App
 const app = express()
+app.set('trust proxy', true)
 app.use(morgan('combined'))
 app.use(cors())
 app.use(bodyParser.json())
+app.use((req, res, next) => {
+  res.set('X-Docker-Hostname', process.env.HOSTNAME)
+  res.removeHeader('X-Powered-By')
+  next()
+})
 
 app.post('*', (req, res) => {
   wss.broadcast(req.body)
