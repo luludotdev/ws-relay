@@ -4,7 +4,7 @@ import Koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import signale from 'signale'
 import { OPEN, Server as WebSocketServer } from 'ws'
-import { PORT } from './env'
+import { AUTH_TOKEN, PORT } from './env'
 
 signale.config({
   displayTimestamp: true,
@@ -30,9 +30,14 @@ koa.proxy = true
 koa.use(cors())
 koa.use(bodyParser({ enableTypes: ['json'] }))
 koa.use(ctx => {
-  if (ctx.method !== 'POST') {
-    ctx.response.status = 405
-    return
+  if (ctx.method !== 'POST') return (ctx.response.status = 405)
+
+  if (AUTH_TOKEN) {
+    const { authorization } = ctx.req.headers
+    if (!authorization) return (ctx.response.status = 401)
+
+    const [, token] = authorization.split('Bearer ')
+    if (token !== AUTH_TOKEN) return (ctx.response.status = 401)
   }
 
   signale.info(`Incoming POST request from ${ctx.ip}`)
