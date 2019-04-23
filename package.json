@@ -5,5 +5,23 @@
   "main": "build/index.js",
   "repository": "git@github.com:lolPants/ws-relay.git",
   "author": "Jack Baron <jackmbaron@gmail.com> (https://www.jackbaron.com)",
-  "license": "ISC"
+  "license": "ISC",
+  "scripts": {
+    "test": "npm run check && npm run lint",
+    "check": "npm run build -- --noEmit",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "prebuild": "rimraf build",
+    "build": "tsc",
+    "build:dev": "npm run build -- --sourceMap",
+    "watch": "tsc --watch",
+    "dev": "npm run watch -- --sourceMap"
+  },
+  "devDependencies": {
+    "@types/node": "^11.13.7",
+    "prettier": "^1.17.0",
+    "tslint": "^5.16.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.4.4"
+  }
 }
