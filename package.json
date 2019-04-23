@@ -1,35 +1,40 @@
 {
   "name": "ws-relay",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Relays JSON data from a POST hook to a WebSocket",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "eslint --color src/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/lolPants/ws-relay.git"
-  },
-  "keywords": [
-    "ws",
-    "relay",
-    "http",
-    "post"
-  ],
+  "main": "build/index.js",
+  "repository": "git@github.com:lolPants/ws-relay.git",
   "author": "Jack Baron <jackmbaron@gmail.com> (https://www.jackbaron.com)",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/lolPants/ws-relay/issues"
-  },
-  "homepage": "https://github.com/lolPants/ws-relay#readme",
-  "devDependencies": {
-    "eslint": "^5.9.0"
+  "scripts": {
+    "test": "npm run check && npm run lint",
+    "check": "npm run build -- --noEmit",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'",
+    "prebuild": "rimraf build",
+    "build": "tsc",
+    "build:dev": "npm run build -- --sourceMap",
+    "watch": "tsc --watch",
+    "dev": "npm run watch -- --sourceMap"
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "cors": "^2.8.5",
-    "express": "^4.16.4",
-    "morgan": "^1.9.1",
-    "ws": "^6.1.0"
+    "@koa/cors": "^3.0.0",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "signale": "^1.4.0",
+    "ws": "^6.2.1"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.48",
+    "@types/koa-bodyparser": "^4.2.2",
+    "@types/koa__cors": "^2.2.3",
+    "@types/node": "^11.13.7",
+    "@types/signale": "^1.2.1",
+    "@types/ws": "^6.0.1",
+    "prettier": "^1.17.0",
+    "rimraf": "^2.6.3",
+    "tslint": "^5.16.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.4.4"
   }
 }
