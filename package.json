@@ -1,0 +1,9 @@
+{
+  "name": "ws-relay",
+  "version": "1.1.0",
+  "description": "Relays JSON data from a POST hook to a WebSocket",
+  "main": "build/index.js",
+  "repository": "git@github.com:lolPants/ws-relay.git",
+  "author": "Jack Baron <jackmbaron@gmail.com> (https://www.jackbaron.com)",
+  "license": "ISC"
+}
